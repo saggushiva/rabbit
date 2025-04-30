@@ -152,7 +152,7 @@
       "value": {
         "src-uri": "amqp://user:bitnami@127.0.01:15672",
         "src-queue": "targetapi-queue",
-        "dest-uri": "amqps://erssrxhc:GVMqCL_0GpLnPLUnqkmAZpDVVrmtKXFx@shark.rmq.cloudamqp.com/erssrxhc",
+        "dest-uri": "amqps://user:password@<destination_uri>",
         "dest-queue": "cloud-rabbit",
         "ack-mode": "on-confirm"
       }
