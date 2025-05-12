@@ -2,7 +2,7 @@ rabbitmq:
   auth:
     username: admin
     password: bitnami
-    erlangCookie: xRDO1zTbFBkjWhfAS6cYmfGPrgZqr2mjD02DZ6gvpZgf
+    
   containerSecurityContext:
     runAsGroup: 0
     readOnlyRootFilesystem: false
