@@ -16,7 +16,8 @@ rabbitmq:
     load_definitions = /app/load_definition.json
     stomp.default_user = guest
     stomp.default_pass = guest
-  extraPlugins: "rabbitmq_shovel rabbitmq_shovel_management rabbitmq_federation rabbitmq_federation_management rabbitmq_stomp"
+    web_stomp.listen = 15674
+  extraPlugins: "rabbitmq_shovel rabbitmq_shovel_management rabbitmq_federation rabbitmq_federation_management rabbitmq_stomp rabbitmq_web_stomp"
   global:
     compatibility:
       openshift:
@@ -39,3 +40,13 @@ rabbitmq:
   resourcesPreset: none
   service:
     type: ClusterIP
+    ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: management
+      port: 15672
+      targetPort: 15672
+    - name: webstomp
+      port: 15674
+      targetPort: 15674
