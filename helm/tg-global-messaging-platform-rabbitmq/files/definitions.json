@@ -9,6 +9,16 @@
       "name": "admin",
       "password": "bitnami",
       "tags": "administrator"
+    },
+    {
+      "name": "consumer",
+      "password": "bitnami",
+      "tags": "message consumer only"
+    },
+    {
+      "name": "consumerproducer",
+      "password": "bitnami",
+      "tags": "message consumer and producer"
     }
   ],
   "permissions": [
@@ -16,6 +26,20 @@
       "user": "admin",
       "vhost": "tg-message-service",
       "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "consumer",
+      "vhost": "tg-message-service",
+      "configure": "",
+      "write": "",
+      "read": ".*"
+    },
+    {
+      "user": "consumerproducer",
+      "vhost": "tg-message-service",
+      "configure": "",
       "write": ".*",
       "read": ".*"
     }
@@ -32,6 +56,15 @@
     },
     {
       "name": "target",
+      "vhost": "tg-message-service",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "dlx.exchange",
       "vhost": "tg-message-service",
       "type": "topic",
       "durable": true,
@@ -82,13 +115,26 @@
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-browser-actions",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
+    },
+    {
+      "name": "dlx.queue",
+      "vhost": "tg-message-service",
+      "durable": true,
+      "auto_delete": false,
       "arguments": {}
     },
     {
@@ -96,98 +142,150 @@
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-member-service-consumer",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-rms-plc",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-stream-service",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "target-service",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-venue-leaderboard",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-contest-bridge-consumer",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-gpp-score-harvester",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-result",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-shot-result",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-dispenser-service",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
+    },
+    {
+      "name": "fed-shot-result",
+      "vhost": "tg-message-service",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "interactive-targetapi-queue",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
       "name": "game-virtual-ball-reader",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     },
     {
-      "name": "tg-fedrate",
+      "name": "tg-federate",
       "vhost": "tg-message-service",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "dlx.exchange",
+        "x-dead-letter-routing-key": "dlx.routing.key"
+      }
     }
   ],
   "bindings": [
@@ -197,6 +295,14 @@
       "destination": "all-events",
       "destination_type": "queue",
       "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "dlx.exchange",
+      "vhost": "tg-message-service",
+      "destination": "dlx.queue",
+      "destination_type": "queue",
+      "routing_key": "dlx.routing.key",
       "arguments": {}
     },
     {
@@ -299,7 +405,7 @@
       "vhost": "tg-message-service",
       "destination": "game-shot-result",
       "destination_type": "queue",
-      "routing_key": "bay.#.tgs.event.score.shot.*",
+      "routing_key": "global.bay.#.tgs.event.score.shot.*",
       "arguments": {}
     },
     {
@@ -391,9 +497,9 @@
       "arguments": {}
     },
     {
-      "source": "interactive-api",
+      "source": "game",
       "vhost": "tg-message-service",
-      "destination": "tg-fedrate",
+      "destination": "fed-shot-result",
       "destination_type": "queue",
       "routing_key": "*"
     }
@@ -407,7 +513,8 @@
         "src-uri": "amqp://admin:bitnami@rabbitmq-0.rabbitmq-headless.default.svc.cluster.local/tg-message-service",
         "src-queue": "game-shot-result",
         "dest-uri": "amqp://erssrxhc:GVMqCL_0GpLnPLUnqkmAZpDVVrmtKXFx@shark-01.rmq.cloudamqp.com:5672/erssrxhc",
-        "dest-queue": "cloud-rabbit",
+        "dest-exchange": "game",
+        "dest-exchange-key": "global-shot-result",
         "ack-mode": "on-confirm",
         "delete-after": "never"
       }
@@ -415,10 +522,10 @@
     {
       "vhost": "tg-message-service",
       "component": "federation-upstream",
-      "name": "tg-fedrate-upstream",
+      "name": "tg-federate-upstream",
       "value": {
         "ack-mode": "on-confirm",
-        "exchange": "interactive-api",
+        "exchange": "game",
         "reconnect-delay": 180,
         "trust-user-id": false,
         "uri": "amqp://erssrxhc:GVMqCL_0GpLnPLUnqkmAZpDVVrmtKXFx@shark-01.rmq.cloudamqp.com:5672/erssrxhc"
@@ -428,11 +535,11 @@
   "policies": [
     {
       "vhost": "tg-message-service",
-      "name": "tg-fedrate-policy",
-      "pattern": "interactive-api",
+      "name": "tg-federate-policy",
+      "pattern": "game",
       "apply-to": "exchanges",
       "definition": {
-        "federation-upstream": "tg-fedrate-upstream"
+        "federation-upstream": "tg-federate-upstream"
       },
       "priority": 0
     }

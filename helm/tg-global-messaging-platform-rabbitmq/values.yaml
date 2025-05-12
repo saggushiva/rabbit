@@ -1,36 +1,41 @@
-loadDefinition:
-  enabled: true
-  existingSecret: load-definition
-extraConfigurations: |
-  load_definition = /app/load_definition.json
-# existingSecret: rabbitmq-definitions
-
-auth:
-  username: admin
-  password: bitnami
-  vhost: tg-message-service
-
-persistence:
-  enabled: true
-  storageClass: ""
-  size: 8Gi
-
-service:
-  type: ClusterIP
-
-extraPlugins: "rabbitmq_shovel rabbitmq_shovel_management rabbitmq_federation rabbitmq_federation_management"
-
-ingress:
-  enable: true
-  hostname: tg-gms-rabbit
-  annotations:
-    extrnal-dns.alpha.kubernetes.io/hostname: tg-gms-rabbit
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  tls: false #Need to enable it true when we are are using TLS certificate 
-
-extraConfigmapMounts:
-- name: rabbiit-definitions
-  mountPath: /app/definitions/
-  configMap: load-definition
-  subPath: ""
-  readOnly: true
+rabbitmq:
+  auth:
+    username: admin
+    password: bitnami
+    erlangCookie: xRDO1zTbFBkjWhfAS6cYmfGPrgZqr2mjD02DZ6gvpZgf
+  containerSecurityContext:
+    runAsGroup: 0
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: true
+    capabilities:
+      drop: []
+    seccompProfile:
+      type: Unconfined
+  extraConfiguration: |-
+    hipe_compile = false
+    load_definitions = /app/load_definition.json
+    stomp.default_user = guest
+    stomp.default_pass = guest
+  extraPlugins: "rabbitmq_shovel rabbitmq_shovel_management rabbitmq_federation rabbitmq_federation_management rabbitmq_stomp"
+  global:
+    compatibility:
+      openshift:
+        adaptSecurityContext: disabled
+  ingress:
+    enabled: true
+    extraHosts:
+    - name: rabbitmq
+      path: /
+    hostname: tg-gms-rabbit
+    tls: false #Need to enable it true when we are are using TLS certificate
+  loadDefinition:
+    enabled: true
+    existingSecret: rabbitmq-definitions
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 8Gi
+  replicaCount: 3
+  resourcesPreset: none
+  service:
+    type: ClusterIP

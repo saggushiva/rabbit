@@ -9,6 +9,7 @@ CURRENT_DIR=$(
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
+
 namespace=default
 
 function utils::get_helm_mode() {
@@ -23,10 +24,10 @@ function utils::get_helm_mode() {
 
 mode=$(utils::get_helm_mode rabbitmq -n $namespace)
 
-kubectl create secret generic load-definition --from-file=load_definition.json=files/definitions.json -n $namespace
+kubectl create secret generic rabbitmq-definitions --from-file=load_definition.json=files/definitions.json -n $namespace
 #kubectl create configmap load-definition --from-file=load_definition.json=files/definitions.json -n $namespace
 
-helm $mode rabbitmq bitnami/rabbitmq -f values.yaml -n $namespace \
+helm $mode rabbitmq /helm/tg-global-messaging-platform-rabbitmq -f values.yaml -n $namespace \
  --set rabbitmq.auth.username=admin \
  --set rabbitmq.auth.password=bitnami
 
